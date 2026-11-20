@@ -22,12 +22,25 @@
   # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
 
-  services.displayManager.sddm = {
-    enable = true;
-    wayland = {
-      enable = true;
-    };
+ # services.displayManager.sddm = {
+ #   enable = true;
+ #   wayland = {
+ #     enable = true;
+ #   };
+ # };
+
+services.displayManager.noctalia-greeter = {
+  enable = true;
+  passwordlessSyncUsers = [ "tommy" ];
+  settings = {
+    cursor.size = 24;
+    keyboard.layout = "hu";
   };
+  cursorTheme = {
+    package = pkgs.bibata-cursors;
+    name = "Bibata-Modern-Ice";
+  };
+};
 
 
 programs.nh = {
@@ -82,8 +95,7 @@ fileSystems = {
   environment.variables.EDITOR = "vim";
 
   time.timeZone = "Europe/Budapest";
-
-  #Hyprland with USWM
+  
   programs.niri.enable = true;
 
 
@@ -125,7 +137,7 @@ fileSystems = {
     pulse.enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
-    jack.enable = true;
+    #jack.enable = true;
     extraConfig.pipewire."92-low-latency" = {
       "context.properties" = {
         "default.clock.rate" = 48000;
@@ -192,6 +204,7 @@ fileSystems = {
     ffmpeg #codecs
     yt-dlp #
     neomutt #terminal email program
+    mailcap
     newsboat #terminal RSS feed reader
     #seahorse #gnupg GUI
     fuzzel #app laucher
@@ -203,7 +216,9 @@ fileSystems = {
     jujutsu #version control
     git #version control
     kdePackages.polkit-kde-agent-1 #polkit agent
-    #heroic 
+    #heroic
+    libreoffice-stable
+    papirus-icon-theme
     #android-tools
   ];
 
@@ -245,6 +260,15 @@ fileSystems = {
       PermitRootLogin = "no";
     };
   };
+
+    programs.dconf.profiles.user.databases = [
+    {
+      settings."org/gnome/desktop/interface" = {
+        gtk-theme = "Adwaita";
+        icon-theme = "Papirus";      
+      };
+    }
+  ];
 
   system.stateVersion = "26.05"; # Did you read the comment?
 
